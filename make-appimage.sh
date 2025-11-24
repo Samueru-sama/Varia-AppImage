@@ -20,6 +20,7 @@ export STARTUPWMCLASS=varia # For Wayland, this is 'io.github.giantpinkrobots.va
 
 # Deploy dependencies
 quick-sharun /usr/bin/varia \
+             /usr/share/varia \
              /usr/bin/aria2c \
              /usr/bin/aria2p \
              /usr/lib/libgirepository*
