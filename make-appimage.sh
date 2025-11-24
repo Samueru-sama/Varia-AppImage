@@ -20,10 +20,42 @@ export STARTUPWMCLASS=varia # For Wayland, this is 'io.github.giantpinkrobots.va
 
 # Deploy dependencies
 quick-sharun /usr/bin/varia \
+             /usr/bin/varia-py.py \
              /usr/share/varia \
+             /usr/bin/ffmpeg \
+             /usr/bin/ffprobe \
              /usr/bin/aria2c \
              /usr/bin/aria2p \
              /usr/lib/libgirepository*
+
+# Patch varia's script to be POSIX and to use AppImage directories
+cat << 'EOF' > ./AppDir/bin/varia
+#!/bin/sh
+pythonexec="${SHARUN_DIR}/bin/python3"
+variapyexec="${SHARUN_DIR}/bin/varia-py.py"
+aria2cexec="${SHARUN_DIR}/bin/aria2c"
+ffmpegexec="${SHARUN_DIR}/bin/ffmpeg"
+
+"$pythonexec" "$variapyexec" "$aria2cexec" "$ffmpegexec" "NOSNAP" "$@"
+EOF
+
+# Patch aria2p to be POSIX
+cat << 'EOF' > ./AppDir/bin/aria2p
+#!/bin/bash
+
+PYTHON_SCRIPT='
+import re
+import sys
+from aria2p.cli.main import main
+
+if __name__ == "__main__":
+    sys.argv[0] = re.sub(r"(-script\.pyw|\.exe)?$", "", sys.argv[0])
+    sys.exit(main())
+'
+
+# Execute the Python script using Python interpreter
+python -c "$PYTHON_SCRIPT"
+EOF
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
