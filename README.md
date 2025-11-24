@@ -1,4 +1,4 @@
-# Gear-Lever-AppImage 🐧
+# Varia-AppImage 🐧
 
 [![GitHub Downloads](https://img.shields.io/github/downloads/pkgforge-dev/Varia-AppImage/total?logo=github&label=GitHub%20Downloads)](https://github.com/pkgforge-dev/Varia-AppImage/releases/latest)
 [![CI Build Status](https://github.com//pkgforge-dev/Varia-AppImage/actions/workflows/appimage.yml/badge.svg)](https://github.com/pkgforge-dev/Varia-AppImage/releases/latest)
