@@ -8,6 +8,7 @@ echo "Building package and its dependencies..."
 echo "---------------------------------------------------------------"
 make-aur-package aria2p
 make-aur-package varia
+pacman -Syu python-charset-normalizer
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
