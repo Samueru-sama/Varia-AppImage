@@ -28,20 +28,19 @@ quick-sharun /usr/bin/varia \
              /usr/bin/aria2p \
              /usr/lib/libgirepository*
 
-# Patch varia's script to be POSIX and to use AppImage directories
+# Patch varia's shell script to be POSIX and to use AppImage directories
 cat << 'EOF' > ./AppDir/bin/varia
 #!/bin/sh
-pythonexec="${SHARUN_DIR}/bin/python3"
-variapyexec="${SHARUN_DIR}/bin/varia-py.py"
-aria2cexec="${SHARUN_DIR}/bin/aria2c"
-ffmpegexec="${SHARUN_DIR}/bin/ffmpeg"
-
-"$pythonexec" "$variapyexec" "$aria2cexec" "$ffmpegexec" "NOSNAP" "$@"
+python3 varia-py.py aria2c ffmpeg NOSNAP "$@"
 EOF
+
+# Patch varia's python script to use AppImage directories
+sed -i '/^pkgdatadir/c\pkgdatadir = os.getenv("SHARUN_DIR", "/usr") + "/share/varia"' ./AppDir/bin/varia-py.py
+sed -i '/^localedir/c\localedir = os.getenv("SHARUN_DIR", "/usr") + "/share/locale"' ./AppDir/bin/varia-py.py
 
 # Patch aria2p to be POSIX
 cat << 'EOF' > ./AppDir/bin/aria2p
-#!/bin/bash
+#!/bin/sh
 
 PYTHON_SCRIPT='
 import re
